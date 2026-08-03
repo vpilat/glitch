@@ -2598,11 +2598,18 @@ void glitch_ui::slotTabMoved(int from, int to)
   m_ui.menu_Tabs->addAction
     (tr("Close Current Page"), this, SLOT(slotCloseCurrentPage(void)))->
     setEnabled(m_recentDiagramsView != m_ui.tab->currentWidget());
-  m_ui.menu_Tabs->addAction
+
+  auto action = m_ui.menu_Tabs->addAction
     (tr("Close Other Closable Pages"),
      this,
-     SLOT(slotCloseOtherClosablePages(void)))->setEnabled
-    (m_ui.tab->count() > 2);
+     SLOT(slotCloseOtherClosablePages(void)));
+
+  if(m_recentDiagramsView == m_ui.tab->currentWidget())
+    action->setEnabled(m_ui.tab->count() > 1);
+  else if(m_ui.tab->count() > 2)
+    action->setEnabled(true);
+  else
+    action->setEnabled(false);
 
   auto group = m_ui.menu_Tabs->findChild<QActionGroup *> ();
 
@@ -2612,9 +2619,8 @@ void glitch_ui::slotTabMoved(int from, int to)
   for(int i = 0; i < m_ui.tab->count(); i++)
     {
       auto view = qobject_cast<glitch_view *> (m_ui.tab->widget(i));
-      auto action = view ?
-	view->menuAction() : m_recentDiagramsView->menuAction();
 
+      action = view ? view->menuAction() : m_recentDiagramsView->menuAction();
       action->setCheckable(true);
       action->setChecked(i == m_ui.tab->currentIndex());
       group->addAction(action);
