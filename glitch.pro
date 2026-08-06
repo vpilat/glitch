@@ -1,8 +1,7 @@
 include(Source/glitch-arduino.pro)
 
 macx {
-dmg.commands        = make install && \
-		      hdiutil create Glitch.d.dmg -srcfolder Glitch.d
+dmg.commands        = hdiutil create Glitch.d.dmg -srcfolder Glitch.d
 QMAKE_EXTRA_TARGETS += dmg
 }
 
@@ -23,6 +22,12 @@ QMAKE_CXXFLAGS_RELEASE += -march=armv7
 
 contains(QMAKE_HOST.arch, ppc) {
 QMAKE_CXXFLAGS_RELEASE += -mcpu=powerpc -mtune=powerpc
+}
+
+contains(QMAKE_HOST.arch, x86_64) {
+macx {
+QMAKE_APPLE_DEVICE_ARCHS = arm64 x86_64
+}
 }
 
 qtHaveModule(pdf) {

@@ -18,6 +18,8 @@ make distclean 2>/dev/null
 rm -f Glitch.d.dmg
 ~/Qt/6.8.3/macos/bin/qmake -o Makefile
 make -j 5
+make install
+codesign --deep --force -s "textbrowser" ./Glitch.d/Glitch.app
 make dmg
 
 if [ ! -r Glitch.d.dmg ]
