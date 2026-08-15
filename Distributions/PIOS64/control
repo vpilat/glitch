@@ -12,7 +12,7 @@ Depends: libqt6core6,
 Maintainer: f83043e79dc03a0abfbcbc376879a97d66f2cacb@protonmail.ch
 Package: Glitch
 Priority: optional
-Section: Development
+Section: electronics
 Version: 2026.05.22
 Description: Glitch
  Welcome to Glitch on PiOS64!
